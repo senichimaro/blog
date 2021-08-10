@@ -1,4 +1,4 @@
-# MERN Objects Project
+# MERN Blog Project
 This project create a blog with React CRA in Front-End and Express in Back-End.
 
 put together Back-End & Front-End setup from scratch. Uses React in the Front-End & Express in Back-End, meanwhile uses other packages to develop side functionalities.
