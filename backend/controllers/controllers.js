@@ -1,4 +1,5 @@
 const BlogModel = require('../model/model')
+const jsonResponse = require('../controllers/helpers')
 
 async function getPosts(req,res){
   const posts = await BlogModel.find().lean().exec()
@@ -8,6 +9,7 @@ async function getPosts(req,res){
 async function newPost(req,res){
 
   try {
+    console.log("new post req.body",req.body);
 
     const { title, textarea } = req.body
 
@@ -33,7 +35,29 @@ async function newPost(req,res){
 
 }
 
+async function findPost(req,res){
+
+  // console.log("findPost req.body",req.body);
+
+  const { _id } = req.body
+
+  // console.log("findPost _id",_id);
+
+
+
+  try {
+    const posts = await BlogModel.findById(
+      _id,
+      (err,data)=> { jsonResponse(res,err,data) }
+    )
+  }
+  catch(e){
+    console.error(`||| > ERROR at Back-End findPost: ${e.message}`);
+  }
+}
+
 module.exports = {
   getPosts,
-  newPost
+  newPost,
+  findPost
 }

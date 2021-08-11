@@ -17,8 +17,6 @@ export async function getPosts(){
 }
 
 
-
-
 export async function newPost( postData ){
 
   try {
@@ -41,6 +39,25 @@ export async function newPost( postData ){
 }
 
 
+export async function findPost( postID ){
+
+  try {
+    // console.log("index findPost postID",postID);
+    const formData = new FormData()
+    formData.append('_id', postID)
+    const response = await axios({
+      method:'post',
+      url:`${baseUrl}/find`,
+      data:{_id:postID}
+      // data:formData
+    })
+    return response;
+  }
+  catch(e){
+    console.error(`||| > ERROR at findPost: ${e.message}`);
+  }
+
+}
 
 
 

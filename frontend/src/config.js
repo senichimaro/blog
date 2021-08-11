@@ -7,11 +7,11 @@ module.exports = {
         name:'Home'
       },
       {
-        url:'/new',
+        url:'/post/new',
         name:'New'
       },
       {
-        url:'/edit',
+        url:'/post/edit',
         name:'Edit'
       }
     ],
