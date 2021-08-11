@@ -98,18 +98,36 @@ This view has a section title, a form that is used to add objects or edit them. 
 Between Back-End and Front-End setup there is a business logic that connects product with services to bring solutions. This logic interpret the user actions and play functionalities respond with data.
 
 1. views
-  - [] init view
-  - [] form view
-  - [] modal
+  - [x] init view
+  - [x] form view
+  - [x] modal
 
 2. http verbs
-  - [] post
-  - [] put
+  - [ ] post
+  - [ ] put
 
 3. data render logic
-  - [] object list
-  - [] http create
-  - [] http edit
-  - [] http delete
-  - [] http succes
-  - [] http error
+  - [ ] posts list
+  - [ ] http create
+  - [ ] http edit
+  - [ ] http delete
+  - [ ] http succes
+  - [ ] http error
+
+
+
+
+
+
+
+
+# Notes
+.env http variables shall NOT have to carrying '/' at the end neither quotes wrappers:
+~~~
+# 404
+REACT_APP_BASE_URL=http:localhost:3001
+REACT_APP_BASE_URL='http:localhost:3001'
+
+# 200
+REACT_APP_BASE_URL=http:localhost:3001/
+~~~

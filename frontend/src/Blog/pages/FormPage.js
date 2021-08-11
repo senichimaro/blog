@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
+import { newPost } from '../../services'
 
 import Form from '../components/Form'
 import Modal from '../components/Modal'
 
 const FormPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(true)
 
   const handleModal = () => {
     setIsModalOpen(!isModalOpen)
   }
 
   const handleSubmit = async data => {
-    data.preventDefault()
-    console.log("handleSubmit", data);
+    // const response = await newPost( data )
+    await newPost( data )
   }
 
 

@@ -1,3 +1,76 @@
+import axios from 'axios'
+
+const baseUrl = process.env.REACT_APP_LOCALHOST
+
+
+export async function getPosts(){
+  try {
+    const response = await axios({
+      method:'get',
+      url:baseUrl
+    })
+    return response
+  }
+  catch(e){
+    console.error(`||| > ERROR getPosts: ${e.message}`);
+  }
+}
+
+
+
+
+export async function newPost( postData ){
+
+  try {
+    const formData = new FormData()
+    formData.append('title', postData.title)
+    formData.append('textarea', postData.textarea)
+    formData.append('image', postData.image)
+    const response = await axios({
+      url:`${baseUrl}/newpost`,
+      method:'POST',
+      data:formData
+    })
+
+    return response
+  }
+  catch(e){
+    console.error(`||| >>> error in FormPage at 'handleSubmit' function: ${e.message}`);
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import axios from 'axios'
 // import { appConfig } from '../config'
 // // import $ from "jquery";

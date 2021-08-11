@@ -1,32 +1,33 @@
-// import React, { useState, useEffect } from 'react'
-// import { getProducts } from '../services/services'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { getPosts } from '../../services'
 
 
 
-import List from '../components/List'
+
+import Card from '../components/Card'
 import Loading from '../components/Loading'
-import NoProducts from '../components/NoProducts'
+import NoPosts from '../components/NoPosts'
 
 
 const HomePage = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [products, setProducts] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [posts, setPosts] = useState([])
 
-  // async function loadProducts(){
-  //   const response = await getProducts()
-  //   setIsLoading(false)
-  //   setProducts(response.data)
-  // }
-  //
-  // useEffect(() => {
-  //   loadProducts()
-  // },[isLoading])
+  async function loadPosts(){
+    const response = await getPosts()
+    // console.log("response.data",response.data.sort().reverse());
+    setPosts( response.data.sort().reverse() )
+  }
+
+  useEffect(() => {
+    setIsLoading(false)
+    loadPosts()
+  },[])
 
 
-  if( !isLoading && products.length ) return <List products={products}/>
+  if( !isLoading && posts.length ) return <Card posts={posts}/>
 
-  if( !isLoading && !products.length ) return <NoProducts />
+  if( !isLoading && !posts.length ) return <NoPosts />
 
   return <Loading />
 
