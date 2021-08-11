@@ -103,12 +103,12 @@ Between Back-End and Front-End setup there is a business logic that connects pro
   - [x] modal
 
 2. http verbs
-  - [ ] post
-  - [ ] put
+  - [x] post
+  - [x] put
 
 3. data render logic
-  - [ ] posts list
-  - [ ] http create
+  - [x] posts list
+  - [x] http create
   - [ ] http edit
   - [ ] http delete
   - [ ] http succes
