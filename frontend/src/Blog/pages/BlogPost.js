@@ -8,9 +8,11 @@ const BlogPost = () => {
   const [post, setPost] = useState({})
 
   const loadPost = async () => {
-    const response = await findPost( id )
-    console.log("response",response.data.data);
-    setPost( response.data.data )
+    if( id ){
+      const response = await findPost( id )
+      console.log("response",response.data.data);
+      setPost( response.data.data )
+    }
   }
 
   useEffect(() => {
@@ -19,9 +21,17 @@ const BlogPost = () => {
 
   return (
     <>
-      <p>id: {post._id}</p>
-      <p>title: {post.title}</p>
-      <p>body: <br />{post.textarea}</p>
+      {
+        id
+        ? (
+          <>
+            <p>id: {post.id}</p>
+            <p>title: {post.title}</p>
+            <p>body: <br />{post.textarea}</p>
+          </>
+        )
+        : null
+      }
     </>
   )
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route
 } from 'react-router-dom'
 
 // imports
@@ -35,27 +35,27 @@ export default function App() {
                   <FormPage />
                 </Route>
 
-                : name === 'Edit' ?
-                <Route exact path={url} key={name}>
-                  <Nav />
-                  <FormPage />
-                </Route>
-
                 : name === 'Home' ?
                 <Route exact path={url} key={name}>
                   <Nav />
                   <HomePage />
                 </Route>
 
-                :null
+                : null
             ))
-        }
+          }
 
 
-        <Route path="/:title/:id">
-          <Nav />
-          <BlogPost />
-        </Route>
+          <Route path={`/post/edit/:id`}>
+            <Nav />
+            <FormPage />
+          </Route>
+
+          <Route path="/:title/:id">
+            <Nav />
+            <BlogPost />
+          </Route>
+
 
 
       </Switch>

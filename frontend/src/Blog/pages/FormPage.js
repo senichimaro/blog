@@ -1,26 +1,54 @@
 import React, { useState } from 'react'
-import { newPost } from '../../services'
+import { useParams } from 'react-router-dom'
+import { newPost, editPost, findPost } from '../../services'
 
 import Form from '../components/Form'
 import Modal from '../components/Modal'
 
 const FormPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(true)
 
-  const handleModal = () => {
-    setIsModalOpen(!isModalOpen)
-  }
+  /** Modal functionality
+  */
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalData, setModalData] = useState({})
+
+  const [ isEdit, setIsEdit ] = useState(false)
+  const { id } = useParams()
+  console.log("id",id);
+
+  // if( id ) setIsEdit(true)
+
+
+
+
+  /** Form functionality
+  */
 
   const handleSubmit = async data => {
-    // const response = await newPost( data )
     await newPost( data )
+  }
+
+  const handleEdit = async data => {
+    const response = await editPost( data )
+    setModalData(response.data)
+    setIsModalOpen(true)
   }
 
 
   return (
     <>
-      <Form handleSubmit={handleSubmit} />
-      <Modal isModalOpen={isModalOpen} handleModal={handleModal} />
+      <Form handleSubmit={handleSubmit} handleEdit={handleEdit} />
+      {/*
+        isEdit
+        ? <Modal modalData={modalData} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        : <Modal modalData={{data:{title:'',textarea:'',imgUrl:''}}} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      */}
+      {
+        isModalOpen
+        ? <Modal modalData={modalData} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        : <Modal modalData={{data:{title:'',textarea:'',imgUrl:''}}} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      }
+
     </>
   )
 }

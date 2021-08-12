@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { findPost } from '../../services'
 
-const Form = ({ handleSubmit }) => {
+const Form = ({ handleSubmit, handleEdit }) => {
   const [imgFile, setImgFile] = useState('')
   const [isImgVisible, setIsImgVisible] = useState(false)
   const [imgSrc, setImgSrc] = useState('')
@@ -8,6 +10,30 @@ const Form = ({ handleSubmit }) => {
     title:'',
     textarea:''
   })
+
+  // In case of edit it's needed _id
+  const [ isEdit, setIsEdit ] = useState(false)
+  const { id } = useParams()
+
+  async function loadPost(){
+    if ( id ){
+      const response = await findPost( id )
+      const { title, textarea, imgUrl } = response.data.data
+      setFormValues({title:title, textarea:textarea})
+      updateImgVisibility( imgUrl, true )
+      setIsEdit(true)      
+    }
+  }
+
+  const _handleEdit = event => {
+    event.preventDefault()
+    if(!isImgVisible) handleEdit({...formValues, _id:id})
+    else handleEdit({...formValues, image:imgFile, _id:id})
+  }
+
+  useEffect(() => {
+    loadPost()
+  },[])
 
   const inputFileRef = useRef()
 
@@ -23,19 +49,22 @@ const Form = ({ handleSubmit }) => {
 
   const handleImgChange = event => {
     setImgFile(inputFileRef.current.files[0])
-    setImgSrc( URL.createObjectURL(event.target.files[0]) )
-    setIsImgVisible(true)
+    updateImgVisibility( URL.createObjectURL(event.target.files[0]), true )
   }
 
   const handleDiscardImg = () => {
-    setIsImgVisible(false)
-    setImgSrc('')
+    updateImgVisibility( '', false )
+  }
+
+  const updateImgVisibility = ( imgSrc, visibility ) => {
+    setIsImgVisible(visibility)
+    setImgSrc(imgSrc)
   }
 
 
   return (
     <div className="container">
-      <form className="my-5" onSubmit={_handleSubmit}>
+      <form className="my-5" onSubmit={isEdit ? _handleEdit : _handleSubmit}>
 
         <div className="mb-3">
           {
@@ -66,7 +95,7 @@ const Form = ({ handleSubmit }) => {
 
         <div className="mb-3">
           <label htmlFor="exampleFormControlTextarea1" className="form-label">Textarea</label>
-          <textarea onChange={handleInput} name="textarea" className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <textarea onChange={handleInput} value={formValues.textarea} name="textarea" className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
 
         <button type="submit" className="btn btn-primary">Submit</button>

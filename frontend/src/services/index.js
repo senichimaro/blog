@@ -42,9 +42,6 @@ export async function newPost( postData ){
 export async function findPost( postID ){
 
   try {
-    // console.log("index findPost postID",postID);
-    const formData = new FormData()
-    formData.append('_id', postID)
     const response = await axios({
       method:'post',
       url:`${baseUrl}/find`,
@@ -60,7 +57,47 @@ export async function findPost( postID ){
 }
 
 
+export async function editPost( postData ){
+  // console.log("editPost", postData);
 
+  try {
+    const formData = new FormData()
+    formData.append('title', postData.title)
+    formData.append('textarea', postData.textarea)
+
+    if( postData.image ) formData.append('image', postData.image)
+
+    formData.append('id', postData._id)
+    const response = await axios({
+      url:`${baseUrl}/editpost`,
+      method:'POST',
+      data:formData
+    })
+
+    return response
+  }
+  catch(e){
+    console.error(`||| >>> error in service/index at 'editPost' function: ${e.message}`);
+  }
+
+}
+
+
+export async function deletePost( postID ){
+
+  try {
+    const response = await axios({
+      method:'post',
+      url:`${baseUrl}/delete`,
+      data:{id:postID}
+    })
+    return response;
+  }
+  catch(e){
+    console.error(`||| > ERROR at deletePost: ${e.message}`);
+  }
+
+}
 
 
 

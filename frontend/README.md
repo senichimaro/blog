@@ -122,6 +122,8 @@ Between Back-End and Front-End setup there is a business logic that connects pro
 
 
 # Notes
+
+### .env variables declaration
 .env http variables shall NOT have to carrying '/' at the end neither quotes wrappers:
 ~~~
 # 404
@@ -130,4 +132,38 @@ REACT_APP_BASE_URL='http:localhost:3001'
 
 # 200
 REACT_APP_BASE_URL=http:localhost:3001/
+~~~
+
+
+### too many useState causing infite loop
+Passing data from one component to another could cause infite loops if too many useState variables are used.
+
+Now let see one example when is not extrictly necessary to use 'useState' that It could be replaced by a simple variable.
+~~~
+### > this example gives an infinite loop
+
+// parent component
+const response = await editPost( data )
+setModalData(response.data)
+<Modal modalData={modalData} />
+
+// child component
+const Modal = ({ modalData }) => {
+  const [isData, setIsData] = useState({})
+  if( modalData.data ) setIsData(modalData.data)
+
+  [...]
+}
+~~~
+Using circle causes the infinte loop, `modalData` is equal to `isData`, in fact isData = modalData.data. This could be done by a common variable.
+~~~
+### > this example will work
+
+// parent component doesn't change
+// child component does change
+const Modal = ({ modalData }) => {
+  const data = modalData.data
+
+  [...]
+}
 ~~~

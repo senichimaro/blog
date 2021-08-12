@@ -6,7 +6,7 @@ const Loading = () => {
   return (
     <div className="container d-flex align-items-center flex-column">
       <p>No products to show</p>
-      <Link className="btn btn-success" to="/new">Create Product</Link>
+      <Link className="btn btn-success" to="/post/new">Create Product</Link>
     </div>
   )
 }

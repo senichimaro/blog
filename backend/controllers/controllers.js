@@ -1,5 +1,5 @@
 const BlogModel = require('../model/model')
-const jsonResponse = require('../controllers/helpers')
+const { jsonResponse, editResponse } = require('../controllers/helpers')
 
 async function getPosts(req,res){
   const posts = await BlogModel.find().lean().exec()
@@ -56,8 +56,67 @@ async function findPost(req,res){
   }
 }
 
+async function editPost(req,res){
+
+  try {
+
+    const { title, textarea, id } = req.body
+
+    if( req.file ){
+      const { filename } = req.file;
+      const fullUrl = `${req.protocol}://${req.get('host')}`
+      const imgUrl = `${fullUrl}/public/${filename}`
+
+      const editPosts = await BlogModel.findByIdAndUpdate(
+        id,
+        {
+          title:title,
+          textarea:textarea,
+          imgUrl:imgUrl
+        },
+        (err,data)=> { jsonResponse(res,err,data) }
+        )
+    }
+    else {
+      const editPosts = await BlogModel.findByIdAndUpdate(
+        id,
+        {
+          title:title,
+          textarea:textarea
+        },
+        (err,data)=> { jsonResponse(res,err,data) }
+        )
+    }
+
+  }
+  catch(e){
+    console.error(`||| > ERROR at editPost: ${e.message}`);
+    res.status(500).json({ success:false,message:e.message })
+  }
+
+}
+
+async function deletePost(req,res){
+
+  try {
+
+    const { id } = req.body
+    const editPosts = await BlogModel.findByIdAndDelete(
+      id,
+      (err,data)=> { jsonResponse(res,err,data) }
+    )
+  }
+  catch(e){
+    console.error(`||| > ERROR at editPost: ${e.message}`);
+    res.status(500).json({ success:false,message:e.message })
+  }
+
+}
+
 module.exports = {
   getPosts,
   newPost,
-  findPost
+  findPost,
+  editPost,
+  deletePost
 }

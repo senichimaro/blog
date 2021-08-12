@@ -9,10 +9,6 @@ module.exports = {
       {
         url:'/post/new',
         name:'New'
-      },
-      {
-        url:'/post/edit',
-        name:'Edit'
       }
     ],
     api:{
