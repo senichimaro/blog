@@ -10,8 +10,9 @@ const BlogPost = () => {
   const loadPost = async () => {
     if( id ){
       const response = await findPost( id )
-      console.log("response",response.data.data);
-      setPost( response.data.data )
+      console.log("BlogPost response",response.data);
+      // console.log("BlogPost response",response.data.data);
+      if( response.data.success ) setPost( response.data.data )
     }
   }
 

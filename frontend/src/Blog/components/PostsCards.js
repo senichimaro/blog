@@ -24,9 +24,10 @@ const PostsCard = ({ posts, loadPosts }) => {
     const response = await deletePost( idPost )
     console.log("response", response);
     if( response ){
-      setModalData(response.data)
+      setModalData(response.data.data)
     }
-    // setIsModalOpen(true)
+    setIsModalOpen(true)
+    loadPosts()
   }
 
   return (

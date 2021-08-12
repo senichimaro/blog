@@ -16,21 +16,20 @@ const FormPage = () => {
   const { id } = useParams()
   console.log("id",id);
 
-  // if( id ) setIsEdit(true)
-
-
-
 
   /** Form functionality
   */
 
   const handleSubmit = async data => {
-    await newPost( data )
+    const response = await newPost( data )
+    console.log("response",response.data.postSaved);
+    setModalData(response.data.postSaved)
+    setIsModalOpen(true)
   }
 
   const handleEdit = async data => {
     const response = await editPost( data )
-    setModalData(response.data)
+    setModalData(response.data.data)
     setIsModalOpen(true)
   }
 
@@ -46,7 +45,8 @@ const FormPage = () => {
       {
         isModalOpen
         ? <Modal modalData={modalData} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        : <Modal modalData={{data:{title:'',textarea:'',imgUrl:''}}} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        // : <Modal modalData={{data:{title:'',textarea:'',imgUrl:''}}} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        : null
       }
 
     </>

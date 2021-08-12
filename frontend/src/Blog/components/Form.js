@@ -3,6 +3,10 @@ import { useParams } from 'react-router-dom'
 import { findPost } from '../../services'
 
 const Form = ({ handleSubmit, handleEdit }) => {
+
+  /** Form functionality
+  */
+
   const [imgFile, setImgFile] = useState('')
   const [isImgVisible, setIsImgVisible] = useState(false)
   const [imgSrc, setImgSrc] = useState('')
@@ -11,35 +15,13 @@ const Form = ({ handleSubmit, handleEdit }) => {
     textarea:''
   })
 
-  // In case of edit it's needed _id
-  const [ isEdit, setIsEdit ] = useState(false)
-  const { id } = useParams()
-
-  async function loadPost(){
-    if ( id ){
-      const response = await findPost( id )
-      const { title, textarea, imgUrl } = response.data.data
-      setFormValues({title:title, textarea:textarea})
-      updateImgVisibility( imgUrl, true )
-      setIsEdit(true)      
-    }
-  }
-
-  const _handleEdit = event => {
-    event.preventDefault()
-    if(!isImgVisible) handleEdit({...formValues, _id:id})
-    else handleEdit({...formValues, image:imgFile, _id:id})
-  }
-
-  useEffect(() => {
-    loadPost()
-  },[])
 
   const inputFileRef = useRef()
 
-  const _handleSubmit = event => {
+  const _handleSubmit = async event => {
     event.preventDefault()
-    handleSubmit({...formValues, image:imgFile})
+    const response = await handleSubmit({...formValues, image:imgFile})
+    console.log("_handleSubmit response",response);
   }
 
   const handleInput = event => {
@@ -60,6 +42,38 @@ const Form = ({ handleSubmit, handleEdit }) => {
     setIsImgVisible(visibility)
     setImgSrc(imgSrc)
   }
+
+
+
+  /** Edit functionality
+  */
+
+  const [ isEdit, setIsEdit ] = useState(false)
+  const { id } = useParams()
+
+  async function loadPost(){
+    if ( id ){
+      console.log("id",id);
+      const response = await findPost( id )
+      console.log("response",response);
+      if( response.data.success ){
+        const { title, textarea, imgUrl } = await response.data.data
+        setFormValues({title:title, textarea:textarea})
+        updateImgVisibility( imgUrl, true )
+        setIsEdit(true)
+      }
+    }
+  }
+
+  const _handleEdit = event => {
+    event.preventDefault()
+    if(!isImgVisible) handleEdit({...formValues, _id:id})
+    else handleEdit({...formValues, image:imgFile, _id:id})
+  }
+
+  useEffect(() => {
+    loadPost()
+  },[])
 
 
   return (

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useRouteMatch } from 'react-router-dom'
+import {
+  Link,
+  useRouteMatch,
+  useParams
+} from 'react-router-dom'
 
 import { appConfig } from '../../config'
 
@@ -13,9 +17,13 @@ const Nav = () => {
     event.target.className ="nav-link active"
   }
 
+  const { title } = useParams()
+
   useEffect(() => {
     appConfig.routes.map( ({ url, name }) => (
-      path === url ? setIsLocation( name ) : null
+      path === url
+      ? setIsLocation( name )
+      : setIsLocation( title )
     ))
   })
 

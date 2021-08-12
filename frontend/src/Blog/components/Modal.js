@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 const Modal = ({ modalData, isModalOpen, setIsModalOpen }) => {
 
-  const data = modalData.data
+  const data = modalData
 
   const _setIsModalOpen = () => {
     setIsModalOpen(!isModalOpen)
@@ -17,7 +17,7 @@ const Modal = ({ modalData, isModalOpen, setIsModalOpen }) => {
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalTitle">
                 {
-                  modalData.success ? 'Success Changes' : 'Error in Changes'
+                  modalData.title ? 'Success Changes' : 'Error in Changes'
                 }
               </h5>
               <button onClick={() => _setIsModalOpen()} type="button" className="close" data-dismiss="modal" arial-label="Close">
